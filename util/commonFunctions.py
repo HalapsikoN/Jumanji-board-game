@@ -14,6 +14,7 @@ def readPlayersBillsAddreses(filename):
         for element in stringList:
             intList.append(int(element))
         result.append(intList)
+    file.close()
     return result
 
 def readCurrenLine(filename, lineNumber):
@@ -22,4 +23,5 @@ def readCurrenLine(filename, lineNumber):
     allTasks=[]
     for line in allTasksList:
         allTasks.append(line.replace("\n", ""))
+    file.close()
     return allTasks[lineNumber-1]

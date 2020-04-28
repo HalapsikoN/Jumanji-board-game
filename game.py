@@ -1,11 +1,11 @@
 from PyQt5 import QtWidgets
 from component.gameWindow import Ui_MainWindow
 from util.commonFunctions import readPlayersBillsAddreses
-from Player import Player
+from classes.Player import Player
 from task import TaskWindow
+from classes.Message import Message, PRINT_USER
 import sys
 import random
-import time
 
 
 def initPlayers(initPlayerList):
@@ -25,9 +25,10 @@ def initPlayers(initPlayerList):
 
 class GameWindow(QtWidgets.QMainWindow):
 
-    def __init__(self, mainWindow):
+    def __init__(self, mainWindow, queue):
         super(GameWindow, self).__init__()
         self.mainWindow = mainWindow
+        self.queue=queue
 
         self.initPlayerList = list(self.mainWindow.numberOfPeople)
         self.playerList=initPlayers(self.initPlayerList)
@@ -40,7 +41,7 @@ class GameWindow(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.ui.turnLabel.setText(str(self.turn+1))
+        self.ui.turnLabel.setText(str(self.playerList[self.turn].id+1))
 
         self.ui.throwButton.clicked.connect(self.btnThrowClicked)
         self.ui.taskButton.clicked.connect(self.btnTaskClicked)
@@ -57,6 +58,11 @@ class GameWindow(QtWidgets.QMainWindow):
         self.ui.stepLine.show()
         self.ui.throwButton.hide()
         self.ui.taskButton.show()
+
+        message=Message(PRINT_USER, self.playerList[self.turn])
+        print(message)
+        self.queue.put(message)
+
 
     def btnTaskClicked(self):
         global taskWindow

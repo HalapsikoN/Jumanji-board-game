@@ -1,7 +1,6 @@
 import sys
 from PyQt5 import QtWidgets
 from component.taskWindow import Ui_MainWindow
-from Player import Player
 from util.commonFunctions import readCurrenLine
 from win import WinWindow
 

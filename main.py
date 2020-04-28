@@ -1,12 +1,18 @@
 from PyQt5 import QtWidgets, QtCore
+
+from classes.Message import PRINT_USER
 from component.mainWindow import Ui_MainWindow
 from rule import RuleWindow
 from option import OptionWindow
-from stripLight import ledWork
+from element.stripLight import ledWork
 from game import GameWindow
+from classes.Message import *
+from classes.Player import Player
 import sys
 import queue
 import threading
+
+from util.commonFunctions import readPlayersBillsAddreses
 
 
 class MenuWindow(QtWidgets.QMainWindow):
@@ -28,22 +34,13 @@ class MenuWindow(QtWidgets.QMainWindow):
         self.show()
         # self.showFullScreen()
 
-        # self.setWindowTitle('Icon')
-        # self.setWindowIcon(QIcon('web.png'))
-        # btn = QPushButton('Quit', self)
-
-        # btn.setToolTip('This is a <b>QPushButton</b> widget')
-        # btn.clicked.connect(QCoreApplication.instance().quit)
-        # btn.resize(btn.sizeHint())
-        # btn.move(50, 50)
-
     def btnPlayClicked(self):
         # print(event.is_set())
         # event.set()
         # print(self.numberOfPeople)
         # print(event.is_set())
         global game
-        game = GameWindow(application)
+        game = GameWindow(application, queue)
         game.show()
         self.close()
 
@@ -58,6 +55,7 @@ class MenuWindow(QtWidgets.QMainWindow):
         rules = RuleWindow(application)
         rules.show()
         self.close()
+
 
     def btnQuitClicked(self):
         event.set()

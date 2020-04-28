@@ -1,7 +1,6 @@
 import sys
 from PyQt5 import QtWidgets, QtCore
 from component.winWindow import Ui_MainWindow
-from Player import Player
 
 
 class WinWindow(QtWidgets.QMainWindow):
