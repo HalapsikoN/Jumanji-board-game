@@ -1,6 +1,9 @@
 import sys
+
 from PyQt5 import QtWidgets
+
 from component.ruleWindow import Ui_MainWindow
+
 
 class RuleWindow(QtWidgets.QMainWindow):
 

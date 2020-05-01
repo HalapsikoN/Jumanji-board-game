@@ -1,11 +1,12 @@
-from PyQt5 import QtWidgets
-from component.gameWindow import Ui_MainWindow
-from util.commonFunctions import readPlayersBillsAddreses
-from classes.Player import Player
-from task import TaskWindow
-from classes.Message import Message, PRINT_USER
-import sys
 import random
+import sys
+
+from PyQt5 import QtWidgets
+
+from classes.Player import Player
+from component.gameWindow import Ui_MainWindow
+from task import TaskWindow
+from util.commonFunctions import readPlayersBillsAddreses
 
 
 def initPlayers(initPlayerList):
@@ -25,15 +26,16 @@ def initPlayers(initPlayerList):
 
 class GameWindow(QtWidgets.QMainWindow):
 
-    def __init__(self, mainWindow, queue):
+    def __init__(self, mainWindow, queue, thread):
         super(GameWindow, self).__init__()
         self.mainWindow = mainWindow
-        self.queue=queue
+        self.queue = queue
+        self.thread = thread
 
         self.initPlayerList = list(self.mainWindow.numberOfPeople)
-        self.playerList=initPlayers(self.initPlayerList)
-        self.turn = random.randrange(0, len(self.playerList)-1)
-        self.step=0
+        self.playerList = initPlayers(self.initPlayerList)
+        self.turn = random.randrange(0, len(self.playerList) - 1)
+        self.step = 0
 
         self.initUI()
 
@@ -41,7 +43,7 @@ class GameWindow(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.ui.turnLabel.setText(str(self.playerList[self.turn].id+1))
+        self.ui.turnLabel.setText(str(self.playerList[self.turn].id + 1))
 
         self.ui.throwButton.clicked.connect(self.btnThrowClicked)
         self.ui.taskButton.clicked.connect(self.btnTaskClicked)
@@ -51,7 +53,7 @@ class GameWindow(QtWidgets.QMainWindow):
         # self.showFullScreen()
 
     def btnThrowClicked(self):
-        self.step=random.randrange(1, 7)
+        self.step = random.randrange(1, 7)
         self.ui.stepLabelNumber.setText(str(self.step))
         self.ui.stepLabelNumber.show()
         self.ui.stepLabel.show()
@@ -59,25 +61,19 @@ class GameWindow(QtWidgets.QMainWindow):
         self.ui.throwButton.hide()
         self.ui.taskButton.show()
 
-        message=Message(PRINT_USER, self.playerList[self.turn])
-        print(message)
-        self.queue.put(message)
-
-
     def btnTaskClicked(self):
         global taskWindow
-        taskWindow=TaskWindow(self, self.playerList[self.turn], self.step)
+        taskWindow = TaskWindow(self, self.playerList[self.turn], self.step, self.queue, self.thread)
         taskWindow.show()
         self.hide()
         self.ui.taskButton.hide()
         self.ui.nextButton.show()
 
-
     def btnNextClicked(self):
-        if self.turn==len(self.playerList)-1:
-            self.turn=0
+        if self.turn == len(self.playerList) - 1:
+            self.turn = 0
         else:
-            self.turn=self.turn+1
+            self.turn = self.turn + 1
         self.initUI()
 
 

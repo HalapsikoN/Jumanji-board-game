@@ -1,12 +1,17 @@
-import sys
 import random
+import sys
+
 from PyQt5 import QtWidgets
+
+from classes.Message import *
 from component.optionWindow import Ui_MainWindow
 
+
 class OptionWindow(QtWidgets.QMainWindow):
-    def __init__(self, mainWindow):
+    def __init__(self, mainWindow, queue):
         super(OptionWindow, self).__init__()
         self.mainWindow = mainWindow
+        self.queue = queue
         self.initUI()
 
     def initUI(self):
@@ -17,6 +22,9 @@ class OptionWindow(QtWidgets.QMainWindow):
         self.ui.comboBox.addItem("3", [1, 1, 1, 0])
         self.ui.comboBox.addItem("4", [1, 1, 1, 1])
         self.ui.comboBox.setCurrentIndex(self.ui.comboBox.findData(self.mainWindow.numberOfPeople))
+        self.queue.put(Message(OPTION_CHOOSE, self.ui.comboBox.currentData()))
+
+        self.ui.comboBox.currentIndexChanged.connect(self.comboBoxChanged)
 
         self.ui.autoButton.clicked.connect(self.btnAutoClicked)
 
@@ -27,18 +35,26 @@ class OptionWindow(QtWidgets.QMainWindow):
         self.show()
         # self.showFullScreen()
 
+    def comboBoxChanged(self):
+        self.queue.put(Message(OPTION_CHOOSE, self.ui.comboBox.currentData()))
+
     def btnAutoClicked(self):
         self.ui.comboBox.setCurrentIndex(random.randrange(3))
 
     def btnChooseClicked(self):
-        self.mainWindow.numberOfPeople=self.ui.comboBox.currentData()
+        self.queue.put(Message(CLEAR))
+        self.queue.put(Message(START_UP_FUNCTION))
+
+        self.mainWindow.numberOfPeople = self.ui.comboBox.currentData()
         self.mainWindow.show()
         self.close()
 
     def btnBackClicked(self):
+        self.queue.put(Message(CLEAR))
+        self.queue.put(Message(START_UP_FUNCTION))
+
         self.mainWindow.show()
         self.close()
-
 
 
 if __name__ == "__main__":
@@ -46,6 +62,3 @@ if __name__ == "__main__":
     global ex
     ex = OptionWindow()
     sys.exit(app.exec())
-    # app.exec()
-
-

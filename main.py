@@ -1,18 +1,15 @@
-from PyQt5 import QtWidgets, QtCore
-
-from classes.Message import PRINT_USER
-from component.mainWindow import Ui_MainWindow
-from rule import RuleWindow
-from option import OptionWindow
-from element.stripLight import ledWork
-from game import GameWindow
-from classes.Message import *
-from classes.Player import Player
-import sys
 import queue
+import sys
 import threading
 
-from util.commonFunctions import readPlayersBillsAddreses
+from PyQt5 import QtWidgets, QtCore
+
+from classes.Message import *
+from component.mainWindow import Ui_MainWindow
+from element.stripLight import ledWork
+from game import GameWindow
+from option import OptionWindow
+from rule import RuleWindow
 
 
 class MenuWindow(QtWidgets.QMainWindow):
@@ -35,18 +32,17 @@ class MenuWindow(QtWidgets.QMainWindow):
         # self.showFullScreen()
 
     def btnPlayClicked(self):
-        # print(event.is_set())
-        # event.set()
-        # print(self.numberOfPeople)
-        # print(event.is_set())
+        queue.put(Message(CLEAR))
         global game
-        game = GameWindow(application, queue)
+        game = GameWindow(application, queue, thread)
         game.show()
         self.close()
 
     def btnOptionClicked(self):
+        queue.put(Message(CLEAR))
+
         global options
-        options = OptionWindow(application)
+        options = OptionWindow(application, queue)
         options.show()
         self.close()
 
@@ -56,12 +52,11 @@ class MenuWindow(QtWidgets.QMainWindow):
         rules.show()
         self.close()
 
-
     def btnQuitClicked(self):
-        event.set()
+        queue.put(Message(EXIT))
         thread.join()
-        QtCore.QCoreApplication.instance().quit()
 
+        QtCore.QCoreApplication.instance().quit()
 
 
 if __name__ == '__main__':
@@ -69,7 +64,7 @@ if __name__ == '__main__':
     global event
     global thread
 
-    queue = queue.Queue(maxsize=10)
+    queue = queue.Queue()
     event = threading.Event()
     thread = threading.Thread(target=ledWork, args=(queue, event))
     thread.start()
