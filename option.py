@@ -3,6 +3,7 @@ import sys
 
 from PyQt5 import QtWidgets
 
+from element.hallSensor import getPlayers
 from classes.Message import *
 from component.optionWindow import Ui_MainWindow
 
@@ -28,6 +29,8 @@ class OptionWindow(QtWidgets.QMainWindow):
 
         self.ui.autoButton.clicked.connect(self.btnAutoClicked)
 
+        self.ui.randomButton.clicked.connect(self.btnRandomClicked)
+
         self.ui.chooseButton.clicked.connect(self.btnChooseClicked)
 
         self.ui.backButton.clicked.connect(self.btnBackClicked)
@@ -38,13 +41,23 @@ class OptionWindow(QtWidgets.QMainWindow):
     def comboBoxChanged(self):
         self.queue.put(Message(OPTION_CHOOSE, self.ui.comboBox.currentData()))
 
-    def btnAutoClicked(self):
+    def btnRandomClicked(self):
         self.ui.comboBox.setCurrentIndex(random.randrange(3))
+
+    def btnAutoClicked(self):
+        data = getPlayers()
+        counterOfOne = 0
+        for i in data:
+            if i == 1:
+                counterOfOne += 1
+        self.ui.comboBox.addItem("auto: " + str(counterOfOne), data)
+        self.ui.comboBox.setCurrentIndex(self.ui.comboBox.findData(data))
 
     def btnChooseClicked(self):
         self.queue.put(Message(CLEAR))
         self.queue.put(Message(START_UP_FUNCTION))
 
+        print(self.ui.comboBox.currentData())
         self.mainWindow.numberOfPeople = self.ui.comboBox.currentData()
         self.mainWindow.show()
         self.close()

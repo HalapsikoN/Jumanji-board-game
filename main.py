@@ -6,7 +6,7 @@ from PyQt5 import QtWidgets, QtCore
 
 from classes.Message import *
 from component.mainWindow import Ui_MainWindow
-from element.stripLight import ledWork
+#from element.stripLight import ledWork
 from game import GameWindow
 from option import OptionWindow
 from rule import RuleWindow
@@ -66,8 +66,8 @@ if __name__ == '__main__':
 
     queue = queue.Queue()
     event = threading.Event()
-    thread = threading.Thread(target=ledWork, args=(queue, event))
-    thread.start()
+    #thread = threading.Thread(target=ledWork, args=(queue, event))
+    #thread.start()
 
     app = QtWidgets.QApplication([])
     global application

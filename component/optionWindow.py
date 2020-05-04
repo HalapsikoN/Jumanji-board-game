@@ -25,13 +25,18 @@ class Ui_MainWindow(object):
         self.label.setFont(QtGui.QFont('SansSerif', 16))
 
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBox.move(195, 80)
+        self.comboBox.move(195, 70)
         self.comboBox.resize(90, 50)
         self.comboBox.setFont(QtGui.QFont('SansSerif', 16))
         self.comboBox.setObjectName("comboBox")
 
+        self.randomButton = QtWidgets.QPushButton(self.centralwidget)
+        self.randomButton.move(150, 130)
+        self.randomButton.resize(180, 50)
+        self.randomButton.setObjectName("pushButton")
+
         self.autoButton = QtWidgets.QPushButton(self.centralwidget)
-        self.autoButton.move(150, 140)
+        self.autoButton.move(150, 190)
         self.autoButton.resize(180, 50)
         self.autoButton.setObjectName("pushButton")
 
@@ -55,6 +60,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("OptionWindow", "OptionWindow"))
         self.label.setText(_translate("OptionWindow", "Choose the number of people:"))
-        self.autoButton.setText(_translate("OptionWindow", "Auto"))
+        self.randomButton.setText(_translate("OptionWindow", "Random"))
         self.chooseButton.setText(_translate("OptionWindow", "Choose"))
+        self.autoButton.setText(_translate("OptionWindow", "Auto"))
         self.backButton.setText(_translate("OptionWindow", "Back"))
