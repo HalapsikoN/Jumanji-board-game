@@ -24,7 +24,7 @@ class RuleWindow(QtWidgets.QMainWindow):
         self.ui.pushButton.clicked.connect(self.btnBackClicked)
 
         self.show()
-        # self.showFullScreen()
+        self.showFullScreen()
 
     def btnBackClicked(self):
         self.mainWindow.show()

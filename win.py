@@ -24,7 +24,7 @@ class WinWindow(QtWidgets.QMainWindow):
         self.ui.exitButton.clicked.connect(self.btnExitClicked)
 
         self.show()
-        # self.showFullScreen()
+        self.showFullScreen()
 
     def btnExitClicked(self):
         self.queue.put(Message(EXIT))

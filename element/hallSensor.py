@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-
+import random
 
 def checkPin(number):
     GPIO.setup(number, GPIO.IN)
@@ -30,4 +30,8 @@ def getPlayers():
     result.append(checkPin(player2pin))
     result.append(checkPin(player3pin))
     GPIO.cleanup()
+
+    while result.count(1) < 2:
+        result[random.randrange(len(result))] = 1
+
     return result

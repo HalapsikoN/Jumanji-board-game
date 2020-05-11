@@ -8,6 +8,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 
+from util.commonFunctions import setStyle
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -17,19 +19,19 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
 
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.move(80, 20)
+        self.label.move(70, 10)
         self.label.setObjectName("label")
-        self.label.setFont(QtGui.QFont('SansSerif', 20))
+        self.label.setFont(QtGui.QFont('SansSerif', 25))
 
         self.playerLabel = QtWidgets.QLabel(self.centralwidget)
-        self.playerLabel.move(262, 20)
+        self.playerLabel.move(280, 10)
         self.playerLabel.setObjectName("label")
-        self.playerLabel.setFont(QtGui.QFont('SansSerif', 20))
+        self.playerLabel.setFont(QtGui.QFont('SansSerif', 25))
 
         self.label3 = QtWidgets.QLabel(self.centralwidget)
-        self.label3.move(290, 20)
+        self.label3.move(310, 10)
         self.label3.setObjectName("label")
-        self.label3.setFont(QtGui.QFont('SansSerif', 20))
+        self.label3.setFont(QtGui.QFont('SansSerif', 25))
 
         self.task = QtWidgets.QLabel(self.centralwidget)
         self.task.move(40, 50)
@@ -54,6 +56,8 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
+        setStyle(self, 'style/main.stylesheet')
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

@@ -36,7 +36,7 @@ class OptionWindow(QtWidgets.QMainWindow):
         self.ui.backButton.clicked.connect(self.btnBackClicked)
 
         self.show()
-        # self.showFullScreen()
+        self.showFullScreen()
 
     def comboBoxChanged(self):
         self.queue.put(Message(OPTION_CHOOSE, self.ui.comboBox.currentData()))
@@ -53,11 +53,11 @@ class OptionWindow(QtWidgets.QMainWindow):
         self.ui.comboBox.addItem("auto: " + str(counterOfOne), data)
         self.ui.comboBox.setCurrentIndex(self.ui.comboBox.findData(data))
 
+
     def btnChooseClicked(self):
         self.queue.put(Message(CLEAR))
         self.queue.put(Message(START_UP_FUNCTION))
 
-        print(self.ui.comboBox.currentData())
         self.mainWindow.numberOfPeople = self.ui.comboBox.currentData()
         self.mainWindow.show()
         self.close()

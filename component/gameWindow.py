@@ -7,7 +7,9 @@
 # WARNING! All changes made in this file will be lost!
 
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets, Qt
+
+from util.commonFunctions import setStyle
 
 
 class Ui_MainWindow(object):
@@ -20,44 +22,44 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
 
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.move(150, 50)
+        self.label.move(130, 30)
         self.label.setObjectName("label")
-        self.label.setFont(QtGui.QFont('SansSerif', 20))
+        self.label.setFont(QtGui.QFont('SansSerif', 25))
 
         self.turnLabel = QtWidgets.QLabel(self.centralwidget)
-        self.turnLabel.move(220, 50)
+        self.turnLabel.move(215, 30)
         self.turnLabel.setObjectName("label_4")
-        self.turnLabel.setFont(QtGui.QFont('SansSerif', 20))
+        self.turnLabel.setFont(QtGui.QFont('SansSerif', 25))
 
         self.line = QtWidgets.QFrame(self.centralwidget)
-        self.line.move(210, 80)
+        self.line.move(205, 65)
         self.line.resize(40, 5)
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
 
         self.label3 = QtWidgets.QLabel(self.centralwidget)
-        self.label3.move(255, 50)
-        self.label3.setFont(QtGui.QFont('SansSerif', 20))
+        self.label3.move(255, 30)
+        self.label3.setFont(QtGui.QFont('SansSerif', 25))
         self.label3.setObjectName("label_3")
 
         self.stepLabel = QtWidgets.QLabel(self.centralwidget)
-        self.stepLabel.move(100, 110)
-        self.stepLabel.setFont(QtGui.QFont('SansSerif', 20))
+        self.stepLabel.move(70, 95)
+        self.stepLabel.setFont(QtGui.QFont('SansSerif', 25))
         self.stepLabel.setObjectName("label_2")
         self.stepLabel.hide()
 
         self.stepLine = QtWidgets.QFrame(self.centralwidget)
-        self.stepLine.move(340, 140)
-        self.stepLine.resize(40, 5)
+        self.stepLine.move(360, 132)
+        self.stepLine.resize(50, 5)
         self.stepLine.setFrameShape(QtWidgets.QFrame.HLine)
         self.stepLine.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.stepLine.setObjectName("line_3")
         self.stepLine.hide()
 
         self.stepLabelNumber = QtWidgets.QLabel(self.centralwidget)
-        self.stepLabelNumber.move(350, 110)
-        self.stepLabelNumber.setFont(QtGui.QFont('SansSerif', 20))
+        self.stepLabelNumber.move(370, 95)
+        self.stepLabelNumber.setFont(QtGui.QFont('SansSerif', 25))
         self.stepLabelNumber.setObjectName("label_6")
         self.stepLabelNumber.hide()
 
@@ -65,18 +67,21 @@ class Ui_MainWindow(object):
         self.throwButton.move(60, 170)
         self.throwButton.resize(360, 120)
         self.throwButton.setObjectName("pushButton")
+        # self.throwButton.setFont(QtGui.QFont('SansSerif', 25))
         self.throwButton.setFont(QtGui.QFont('SansSerif', 30))
 
         self.taskButton = QtWidgets.QPushButton(self.centralwidget)
         self.taskButton.move(60, 170)
         self.taskButton.resize(360, 120)
         self.taskButton.setObjectName("pushButton_2")
+        # self.taskButton.setFont(QtGui.QFont('SansSerif', 25))
         self.taskButton.setFont(QtGui.QFont('SansSerif', 30))
         self.taskButton.hide()
 
         self.nextButton = QtWidgets.QPushButton(self.centralwidget)
         self.nextButton.move(60, 170)
         self.nextButton.resize(360, 120)
+        # self.nextButton.setFont(QtGui.QFont('SansSerif', 25))
         self.nextButton.setFont(QtGui.QFont('SansSerif', 30))
         self.nextButton.setObjectName("pushButton_3")
         self.nextButton.hide()
@@ -84,6 +89,8 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
+        setStyle(self, 'style/main.stylesheet')
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

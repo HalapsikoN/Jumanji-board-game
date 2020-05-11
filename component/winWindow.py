@@ -8,6 +8,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 
+from util.commonFunctions import setStyle
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -53,6 +55,8 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
+        setStyle(self, 'style/main.stylesheet')
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

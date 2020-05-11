@@ -21,76 +21,6 @@ num_pixels = 124
 ORDER = neopixel.GRB
 
 
-# def wheel(pos):
-#     """Generate rainbow colors across 0-255 positions."""
-#     if pos < 85:
-#         return Color(pos * 3, 255 - pos * 3, 0)
-#     elif pos < 170:
-#         pos -= 85
-#         return Color(255 - pos * 3, 0, pos * 3)
-#     else:
-#         pos -= 170
-#         return Color(0, pos * 3, 255 - pos * 3)
-#
-#
-# def rainbow(strip, wait_ms=20, iterations=1):
-#     """Draw rainbow that fades across all pixels at once."""
-#     for j in range(256 * iterations):
-#         for i in range(strip.numPixels()):
-#             strip.setPixelColor(i, wheel((i + j) & 255))
-#         strip.show()
-#         time.sleep(wait_ms / 1000.0)
-#
-#
-# def changeRainbowColor(strip):
-#     for i in range(strip.numPixels()):
-#         strip.setPixelColor(i, wheel(i) & 255)
-#     strip.show()
-#
-#
-# def rainbowCycle(strip, wait_ms=20, iterations=5):
-#     """Draw rainbow that uniformly distributes itself across all pixels."""
-#     for j in range(256 * iterations):
-#         for i in range(strip.numPixels()):
-#             strip.setPixelColor(i, wheel((int(i * 256 / strip.numPixels()) + j) & 255))
-#         strip.show()
-#         time.sleep(wait_ms / 1000.0)
-#
-#
-# def theaterChaseRainbow(strip, wait_ms=50):
-#     """Rainbow movie theater light style chaser animation."""
-#     for j in range(256):
-#         for q in range(3):
-#             for i in range(0, strip.numPixels(), 3):
-#                 strip.setPixelColor(i + q, wheel((i + j) % 255))
-#             strip.show()
-#             time.sleep(wait_ms / 1000.0)
-#             for i in range(0, strip.numPixels(), 3):
-#                 strip.setPixelColor(i + q, 0)
-#
-#
-# def turnOffStrip(strip):
-#     for i in range(strip.numPixels()):
-#         strip.setPixelColor(i, Color(0, 0, 0))
-#     strip.show()
-#
-# def turnOnPlayer(strip, billsAddresses, color):
-#     for i in billsAddresses:
-#         #nned to test put into Color((0, 255, 255)) like this
-#         strip.setPixelColor(i, Color(color))
-#     strip.show()
-#
-# def turnOffPlayer(strip, billsAddresses):
-#     for i in billsAddresses:
-#         #nned to test put into Color((0, 255, 255)) like this
-#         strip.setPixelColor(i, Color(0,0,0))
-#     strip.show()
-#
-# def setNewPlayerPosition(strip, billsAddress, newPosition, color):
-#     turnOffPlayer(strip, billsAddress)
-#     strip.setPixelColor(newPosition, color)
-#     strip.show()
-
 def wheel(pos):
     # Input a value 0 to 255 to get a color value.
     # The colours are a transition r - g - b - back to r.
@@ -152,7 +82,7 @@ def isPlayerOnPoint(pixels, position):
 
 def playerMove(pixels, addressList, startPosition, endPosition, step):
     color = pixels[addressList[startPosition]]
-    wait = 0.5
+    wait = 1
 
     currentPosition = startPosition
     nextPosition = startPosition + step
@@ -187,6 +117,8 @@ def playerMove(pixels, addressList, startPosition, endPosition, step):
 def playerMoveFromOnePlayerPoint(pixels, billAddresses, startAddress, endAddress, step):
     if startAddress < 0:
         startAddress = 0
+    if endAddress>=len(billAddresses):
+        endAddress=len(billAddresses)-1
 
     savedColor = playerMove(pixels, billAddresses, startAddress, endAddress, step)
     currentColor = pixels[billAddresses[endAddress]]
@@ -226,6 +158,7 @@ def playerMoveFromTwoPlayerPoint(pixels, billAddreses, startAddress, endAddress,
 
 # for option show
 def showPlayers(pixels, playersAddresses, playerColors, playersInGame):
+    turnOffBoard(pixels)
     for i in range(4):
         if playersInGame[i] == 1:
             showPlayer(pixels, playersAddresses[i], playerColors[i])
@@ -306,9 +239,9 @@ def randomColorAndWhite(pixels, color, numberColor=int(num_pixels / 3)):
     pixels.show()
 
 
-def ledWork(queue, event):
+def ledWork(queue):
     pixels = neopixel.NeoPixel(
-        pixel_pin, num_pixels, brightness=0.05, auto_write=False, pixel_order=ORDER
+        pixel_pin, num_pixels, brightness=0.1, auto_write=False, pixel_order=ORDER
     )
 
     playersAddresses = readPlayersBillsAddreses('./text/playersBillsAddresses.txt')
@@ -347,6 +280,12 @@ def ledWork(queue, event):
 
         if currentCommand == SET_NEW_POINT:
             print("SET_NEW_POINT -> ", data)
+
+            # remove in function
+            if (data.lastPosition < 0 and data.currentPosition >= 0):
+                pixels[data.stripList[0]] = data.color
+                pixels.show()
+                time.sleep(1)
 
             resultOfMoving = 0
             if (doubleColorPoints.get(data.lastPosition) is None):
@@ -390,4 +329,4 @@ def ledWork(queue, event):
 
             break
 
-        time.sleep(1.0)
+        time.sleep(0.7)

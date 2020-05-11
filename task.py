@@ -29,13 +29,13 @@ class TaskWindow(QtWidgets.QMainWindow):
         self.ui.skipButton.clicked.connect(self.btnSkipClicked)
 
         self.show()
-        # self.showFullScreen()
+        self.showFullScreen()
 
     def btnDoneClicked(self):
-        print(self.player)
         self.player.lastPosition = self.player.currentPosition
         self.player.currentPosition += self.step
         if self.player.currentPosition >= (len(self.player.stripList)):
+            self.queue.put(Message(SET_NEW_POINT, self.player))
             self.queue.put(Message(CLEAR))
 
             self.mainWindow.close()

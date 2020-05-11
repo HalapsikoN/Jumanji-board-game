@@ -50,10 +50,10 @@ class GameWindow(QtWidgets.QMainWindow):
         self.ui.nextButton.clicked.connect(self.btnNextClicked)
 
         self.show()
-        # self.showFullScreen()
+        self.showFullScreen()
 
     def btnThrowClicked(self):
-        self.step = random.randrange(1, 7)
+        self.step = random.randrange(1, 13)
         self.ui.stepLabelNumber.setText(str(self.step))
         self.ui.stepLabelNumber.show()
         self.ui.stepLabel.show()

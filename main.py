@@ -6,7 +6,7 @@ from PyQt5 import QtWidgets, QtCore
 
 from classes.Message import *
 from component.mainWindow import Ui_MainWindow
-#from element.stripLight import ledWork
+from element.stripLight import ledWork
 from game import GameWindow
 from option import OptionWindow
 from rule import RuleWindow
@@ -29,7 +29,7 @@ class MenuWindow(QtWidgets.QMainWindow):
         self.ui.pushButton4.clicked.connect(self.btnQuitClicked)
 
         self.show()
-        # self.showFullScreen()
+        self.showFullScreen()
 
     def btnPlayClicked(self):
         queue.put(Message(CLEAR))
@@ -40,7 +40,6 @@ class MenuWindow(QtWidgets.QMainWindow):
 
     def btnOptionClicked(self):
         queue.put(Message(CLEAR))
-
         global options
         options = OptionWindow(application, queue)
         options.show()
@@ -61,13 +60,11 @@ class MenuWindow(QtWidgets.QMainWindow):
 
 if __name__ == '__main__':
     global queue
-    global event
     global thread
 
     queue = queue.Queue()
-    event = threading.Event()
-    #thread = threading.Thread(target=ledWork, args=(queue, event))
-    #thread.start()
+    thread = threading.Thread(target=ledWork, args=(queue))
+    thread.start()
 
     app = QtWidgets.QApplication([])
     global application
